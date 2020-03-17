@@ -18,3 +18,10 @@ The tenant used for a service provider login
 **registry**
 **registry_user**
 **registry_password**
+**envvars**
+A list of environment variables in the form var=value (eg.):
+```
+envvars:
+  - PORT=8080
+  - PROTOCOL=https
+```
