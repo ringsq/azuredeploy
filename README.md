@@ -1,6 +1,6 @@
-Par
 
-## Parameter Reference
+
+## Settings Reference
 
 **azure_appid**
 The AppId used for a service provider login
@@ -19,9 +19,9 @@ The tenant used for a service provider login
 **registry_user**
 **registry_password**
 **envvars**
-A list of environment variables in the form var=value (eg.):
+A list of environment variables to pass to azure deploy.  These must then be set in the environment section.
 ```
 envvars:
-  - PORT=8080
-  - PROTOCOL=https
+  - PORT
+  - PROTOCOL
 ```
