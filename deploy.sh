@@ -5,7 +5,7 @@ echo $PLUGIN_ENVVARS > env.txt
 
 ENV_VARS=$(envsubst < env.txt)
 
-# PLUGIN_ENVVARS has ',' as Internal field separator - IFS
+# PLUGIN_ENVVARS has ',' as an Internal field separator - IFS
 # This is a most preferred way to split string if source string has spaces.
 IFS=','
 
