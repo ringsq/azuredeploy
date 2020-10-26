@@ -5,7 +5,10 @@ echo $PLUGIN_ENVVARS > env.txt
 
 ENV_VARS=$(envsubst < env.txt)
 
-# PLUGIN_ENVVARS has ',' as an Internal field separator - IFS
+# Put the env variables in quotes ""
+ENV_VARS=$(echo $ENV_VARS | sed 's/=\([^,^$]*\)/="\1"/g')
+
+# PLUGIN_ENVVARS has ',' as Internal field separator - IFS
 # This is a most preferred way to split string if source string has spaces.
 IFS=','
 
@@ -14,12 +17,17 @@ read -ra ARR <<< "$ENV_VARS"
 
 # create space sperated string
 for i in "${ARR[@]}"; do
-    ENV_VARS_STR="$ENV_VARS_STR $i"
+  ENV_VARS_STR="$ENV_VARS_STR $i"
 done
 
-# Store command to be executed in to CREATE, otherwise it adds single quotes to variables
+# Store command to be executed in to CREATE, other it adds single quotes to variable
 CREATE="az container create --resource-group ${PLUGIN_RESOURCE_GROUP} --name ${PLUGIN_CONTAINER_NAME} --image ${PLUGIN_IMAGE}:${PLUGIN_IMAGE_VERSION:-latest} --dns-name-label ${PLUGIN_DNS} --ports ${PLUGIN_PORTS:-80} --registry-login-server ${PLUGIN_REGISTRY:-hub.docker.io} --registry-username ${PLUGIN_REGISTRY_USER} --registry-password ${PLUGIN_REGISTRY_PASSWORD} --environment-variables M5=Magna5 ${ENV_VARS_STR}"
 
-# Execute
+# Login to Azure with the command line
 az login --service-principal -u ${PLUGIN_AZURE_APPID} -p ${PLUGIN_AZURE_PASSWORD} --tenant ${PLUGIN_AZURE_TENANT} || exit 1
+
+# Print the command being executed
+set -x
+
+# Execute az container deploy command
 eval $CREATE
