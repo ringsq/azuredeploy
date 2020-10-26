@@ -5,8 +5,6 @@ for var in ${PLUGIN_ENVVARS//,/ }; do
   AZVARS="${AZVARS} $var=\"${!var:-missing}\""
 done
 
-# Put the env variables in quotes "" to accomodate space in values
-AZVARS=$(echo $AZVARS | sed 's/=\([^,^$]*\)/="\1"/g')
 
 # Print the command being executed
 set -x
