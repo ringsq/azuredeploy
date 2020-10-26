@@ -2,7 +2,7 @@
 
 AZVARS="M5=Magna5"
 for var in ${PLUGIN_ENVVARS//,/ }; do
-  AZVARS=${AZVARS},$var="${!var:-missing}"
+  AZVARS="${AZVARS} $var=\"${!var:-missing}\""
 done
 
 # Put the env variables in quotes "" to accomodate space in values
